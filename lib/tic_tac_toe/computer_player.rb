@@ -27,7 +27,8 @@ module TicTacToe
     end
 
     def look_for_winning_or_blocking_position(opponent_marker)
-      for line in LINES
+      blocking_position = nil
+      WINNING_LINES.each do |line|
         markers = group_positions_by_markers(line)
         next if markers[nil].length != 1
 
@@ -39,6 +40,7 @@ module TicTacToe
           blocking_position = markers[nil].first
         end
       end
+
       if blocking_position
         log_debug("blocking at #{blocking_position}")
         blocking_position
