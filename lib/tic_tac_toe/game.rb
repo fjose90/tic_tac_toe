@@ -54,7 +54,7 @@ module TicTacToe
     end
 
     def opponent
-      @players[other_player_id]
+      @players[1 - @current_player_id]
     end
 
     def turn_num
@@ -70,6 +70,40 @@ module TicTacToe
       row_positions = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
       rows_for_display = row_positions.map(&row_for_display)
       puts rows_for_display.join("\n" + row_separator + "\n")
+    end
+
+    # Run a full game. If a HumanPlayer is present, it will prompt for input;
+    # otherwise it will run automatically (useful for ComputerPlayer vs ComputerPlayer).
+    def play(move_delay: 0)
+      loop do
+        print_board
+
+        player = current_player
+        puts "Vez de: #{player} (#{player.marker})"
+        position = player.select_position!
+
+        place_marker(position, player.marker)
+
+        if player.is_a?(TicTacToe::ComputerPlayer)
+          puts "#{player} escolheu a posição #{position}."
+        end
+
+        if player_has_won?(player)
+          print_board
+          puts "#{player} venceu! (#{player.marker})"
+          return player
+        end
+
+        if board_full?
+          print_board
+          puts "Empate!"
+          return nil
+        end
+
+        sleep(move_delay) if move_delay && move_delay > 0
+
+        switch_players!
+      end
     end
   end
 end
