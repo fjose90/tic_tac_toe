@@ -5,11 +5,11 @@ module TicTacToe
     def select_position!
       @game.print_board
       loop do
-        print("Select your #{marker} position: ")
+        print("Selecione a posição para #{marker}: ")
         selection = gets.to_i
         return selection if @game.free_positions.include?(selection)
 
-        puts "Position #{selection} is not available. Try again."
+        puts "Posição #{selection} não está disponível. Tente novamente."
       end
     end
 
